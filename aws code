@@ -1,0 +1,9 @@
+node('main'){
+    stage('Launch configuration'){
+        def cmd = "aws autoscaling create-launch-configuration --launch-configuration-name myasg --image-id ami-02adec9af58272e8e --instance-type t2.micro --security-groups sg-0eb18958b402a99d5 --key-name " + j + " --user-data \$'" + userdata + "' --region ap-south-1"
+        sh (cmd)
+    }
+    stage('Auto scaling'){
+        sh "aws autoscaling create-auto-scaling-group --auto-scaling-group-name my-asg-cli --launch-configuration-name mylc2-cli --max-size 2 --min-size 1 --availability-zones ap-south-1 --region ap-south-1"
+    }
+    }
